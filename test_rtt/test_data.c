@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'test'.
  *
- * Model version                  : 1.29
+ * Model version                  : 1.32
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Wed Aug 12 17:54:15 2015
+ * C/C++ source code generated on : Wed Aug 12 20:39:07 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -23,15 +23,6 @@
 
 /* Block parameters (auto storage) */
 P_test_T test_P = {
-  /*  Mask Parameter: RepeatingSequenceStair1_OutValu
-   * Referenced by: '<S3>/Vector'
-   */
-  { 0.0, 30.0, 60.0, 90.0, 120.0, 150.0, 175.0 },
-
-  /*  Mask Parameter: RepeatingSequenceStair_OutValue
-   * Referenced by: '<S2>/Vector'
-   */
-  { 90.0, 60.0, 30.0, 0.0, -30.0, -60.0, -90.0 },
   11U,                                 /* Mask Parameter: ServoWrite_pinNumber
                                         * Referenced by: '<S4>/Servo Write'
                                         */
@@ -41,23 +32,8 @@ P_test_T test_P = {
   9U,                                  /* Mask Parameter: ServoWrite_pinNumber_l
                                         * Referenced by: '<S7>/Servo Write'
                                         */
-  6U,                                  /* Mask Parameter: LimitedCounter_uplimit
-                                        * Referenced by: '<S13>/FixPt Switch'
-                                        */
-  6U,                                  /* Mask Parameter: LimitedCounter_uplimit_h
-                                        * Referenced by: '<S16>/FixPt Switch'
-                                        */
-  10.0,                                /* Expression: 10
-                                        * Referenced by: '<Root>/Pulse Generator'
-                                        */
-  4900.0,                              /* Computed Parameter: PulseGenerator_Period
-                                        * Referenced by: '<Root>/Pulse Generator'
-                                        */
-  50.0,                                /* Computed Parameter: PulseGenerator_Duty
-                                        * Referenced by: '<Root>/Pulse Generator'
-                                        */
   0.0,                                 /* Expression: 0
-                                        * Referenced by: '<Root>/Pulse Generator'
+                                        * Referenced by: '<Root>/Constant'
                                         */
   1.0,                                 /* Expression: 1
                                         * Referenced by: '<S1>/Gain'
@@ -89,35 +65,17 @@ P_test_T test_P = {
   94.0,                                /* Expression: 94
                                         * Referenced by: '<S1>/Bias2'
                                         */
-  0U,                                  /* Computed Parameter: Constant_Value
-                                        * Referenced by: '<S13>/Constant'
-                                        */
-  0U,                                  /* Computed Parameter: Constant_Value_c
-                                        * Referenced by: '<S16>/Constant'
-                                        */
   90U,                                 /* Computed Parameter: Constant_Value_d
                                         * Referenced by: '<S4>/Constant'
                                         */
   0U,                                  /* Computed Parameter: ServoWrite_p1
                                         * Referenced by: '<S4>/Servo Write'
                                         */
-  0U,                                  /* Computed Parameter: Output_InitialCondition
-                                        * Referenced by: '<S14>/Output'
-                                        */
   1U,                                  /* Computed Parameter: ServoWrite_p1_g
                                         * Referenced by: '<S6>/Servo Write'
                                         */
-  0U,                                  /* Computed Parameter: Output_InitialCondition_f
-                                        * Referenced by: '<S11>/Output'
-                                        */
-  2U,                                  /* Computed Parameter: ServoWrite_p1_a
+  2U                                   /* Computed Parameter: ServoWrite_p1_a
                                         * Referenced by: '<S7>/Servo Write'
-                                        */
-  1U,                                  /* Computed Parameter: FixPtConstant_Value
-                                        * Referenced by: '<S12>/FixPt Constant'
-                                        */
-  1U                                   /* Computed Parameter: FixPtConstant_Value_d
-                                        * Referenced by: '<S15>/FixPt Constant'
                                         */
 };
 

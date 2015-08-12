@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'test'.
  *
- * Model version                  : 1.29
+ * Model version                  : 1.32
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Wed Aug 12 17:54:15 2015
+ * C/C++ source code generated on : Wed Aug 12 20:39:07 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -50,27 +50,8 @@
 # define rtmTaskCounter(rtm, idx)      ((rtm)->Timing.TaskCounters.TID[(idx)])
 #endif
 
-/* Block signals (auto storage) */
-typedef struct {
-  uint8_T FixPtSwitch;                 /* '<S13>/FixPt Switch' */
-  uint8_T FixPtSwitch_d;               /* '<S16>/FixPt Switch' */
-} B_test_T;
-
-/* Block states (auto storage) for system '<Root>' */
-typedef struct {
-  int32_T clockTickCounter;            /* '<Root>/Pulse Generator' */
-  uint8_T Output_DSTATE;               /* '<S14>/Output' */
-  uint8_T Output_DSTATE_g;             /* '<S11>/Output' */
-} DW_test_T;
-
 /* Parameters (auto storage) */
 struct P_test_T_ {
-  real_T RepeatingSequenceStair1_OutValu[7];/* Mask Parameter: RepeatingSequenceStair1_OutValu
-                                             * Referenced by: '<S3>/Vector'
-                                             */
-  real_T RepeatingSequenceStair_OutValue[7];/* Mask Parameter: RepeatingSequenceStair_OutValue
-                                             * Referenced by: '<S2>/Vector'
-                                             */
   uint32_T ServoWrite_pinNumber;       /* Mask Parameter: ServoWrite_pinNumber
                                         * Referenced by: '<S4>/Servo Write'
                                         */
@@ -80,23 +61,8 @@ struct P_test_T_ {
   uint32_T ServoWrite_pinNumber_l;     /* Mask Parameter: ServoWrite_pinNumber_l
                                         * Referenced by: '<S7>/Servo Write'
                                         */
-  uint8_T LimitedCounter_uplimit;      /* Mask Parameter: LimitedCounter_uplimit
-                                        * Referenced by: '<S13>/FixPt Switch'
-                                        */
-  uint8_T LimitedCounter_uplimit_h;    /* Mask Parameter: LimitedCounter_uplimit_h
-                                        * Referenced by: '<S16>/FixPt Switch'
-                                        */
-  real_T PulseGenerator_Amp;           /* Expression: 10
-                                        * Referenced by: '<Root>/Pulse Generator'
-                                        */
-  real_T PulseGenerator_Period;        /* Computed Parameter: PulseGenerator_Period
-                                        * Referenced by: '<Root>/Pulse Generator'
-                                        */
-  real_T PulseGenerator_Duty;          /* Computed Parameter: PulseGenerator_Duty
-                                        * Referenced by: '<Root>/Pulse Generator'
-                                        */
-  real_T PulseGenerator_PhaseDelay;    /* Expression: 0
-                                        * Referenced by: '<Root>/Pulse Generator'
+  real_T Constant_Value;               /* Expression: 0
+                                        * Referenced by: '<Root>/Constant'
                                         */
   real_T Gain_Gain;                    /* Expression: 1
                                         * Referenced by: '<S1>/Gain'
@@ -128,35 +94,17 @@ struct P_test_T_ {
   real_T Bias2_Bias;                   /* Expression: 94
                                         * Referenced by: '<S1>/Bias2'
                                         */
-  uint8_T Constant_Value;              /* Computed Parameter: Constant_Value
-                                        * Referenced by: '<S13>/Constant'
-                                        */
-  uint8_T Constant_Value_c;            /* Computed Parameter: Constant_Value_c
-                                        * Referenced by: '<S16>/Constant'
-                                        */
   uint8_T Constant_Value_d;            /* Computed Parameter: Constant_Value_d
                                         * Referenced by: '<S4>/Constant'
                                         */
   uint8_T ServoWrite_p1;               /* Computed Parameter: ServoWrite_p1
                                         * Referenced by: '<S4>/Servo Write'
                                         */
-  uint8_T Output_InitialCondition;     /* Computed Parameter: Output_InitialCondition
-                                        * Referenced by: '<S14>/Output'
-                                        */
   uint8_T ServoWrite_p1_g;             /* Computed Parameter: ServoWrite_p1_g
                                         * Referenced by: '<S6>/Servo Write'
                                         */
-  uint8_T Output_InitialCondition_f;   /* Computed Parameter: Output_InitialCondition_f
-                                        * Referenced by: '<S11>/Output'
-                                        */
   uint8_T ServoWrite_p1_a;             /* Computed Parameter: ServoWrite_p1_a
                                         * Referenced by: '<S7>/Servo Write'
-                                        */
-  uint8_T FixPtConstant_Value;         /* Computed Parameter: FixPtConstant_Value
-                                        * Referenced by: '<S12>/FixPt Constant'
-                                        */
-  uint8_T FixPtConstant_Value_d;       /* Computed Parameter: FixPtConstant_Value_d
-                                        * Referenced by: '<S15>/FixPt Constant'
                                         */
 };
 
@@ -178,12 +126,6 @@ struct tag_RTM_test_T {
 
 /* Block parameters (auto storage) */
 extern P_test_T test_P;
-
-/* Block signals (auto storage) */
-extern B_test_T test_B;
-
-/* Block states (auto storage) */
-extern DW_test_T test_DW;
 
 /* Model entry point functions */
 extern void test_initialize(void);
