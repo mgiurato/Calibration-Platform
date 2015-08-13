@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'test'.
  *
- * Model version                  : 1.36
+ * Model version                  : 1.45
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Wed Aug 12 21:22:23 2015
+ * C/C++ source code generated on : Thu Aug 13 15:19:07 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -24,237 +24,285 @@
 /* Block signals (auto storage) */
 B_test_T test_B;
 
-/* Block states (auto storage) */
-DW_test_T test_DW;
-
 /* Real-time model */
 RT_MODEL_test_T test_M_;
 RT_MODEL_test_T *const test_M = &test_M_;
-static void rate_monotonic_scheduler(void);
-
-/*
- *   This function updates active task flag for each subrate
- * and rate transition flags for tasks that exchange data.
- * The function assumes rate-monotonic multitasking scheduler.
- * The function must be called at model base rate so that
- * the generated code self-manages all its subrates and rate
- * transition flags.
- */
-static void rate_monotonic_scheduler(void)
+real_T look1_binlxpw(real_T u0, const real_T bp0[], const real_T table[],
+                     uint32_T maxIndex)
 {
-  /* Compute which subrates run during the next base time step.  Subrates
-   * are an integer multiple of the base rate counter.  Therefore, the subtask
-   * counter is reset when it reaches its limit (zero means run).
+  real_T frac;
+  uint32_T iRght;
+  uint32_T iLeft;
+  uint32_T bpIdx;
+
+  /* Lookup 1-D
+     Search method: 'binary'
+     Use previous index: 'off'
+     Interpolation method: 'Linear'
+     Extrapolation method: 'Linear'
+     Use last breakpoint for index at or above upper limit: 'off'
+     Remove protection against out-of-range input in generated code: 'off'
    */
-  (test_M->Timing.TaskCounters.TID[1])++;
-  if ((test_M->Timing.TaskCounters.TID[1]) > 99) {/* Sample time: [1.0s, 0.0s] */
-    test_M->Timing.TaskCounters.TID[1] = 0;
+  /* Prelookup - Index and Fraction
+     Index Search method: 'binary'
+     Extrapolation method: 'Linear'
+     Use previous index: 'off'
+     Use last breakpoint for index at or above upper limit: 'off'
+     Remove protection against out-of-range input in generated code: 'off'
+   */
+  if (u0 <= bp0[0UL]) {
+    iLeft = 0UL;
+    frac = (u0 - bp0[0UL]) / (bp0[1UL] - bp0[0UL]);
+  } else if (u0 < bp0[maxIndex]) {
+    /* Binary Search */
+    bpIdx = maxIndex >> 1UL;
+    iLeft = 0UL;
+    iRght = maxIndex;
+    while (iRght - iLeft > 1UL) {
+      if (u0 < bp0[bpIdx]) {
+        iRght = bpIdx;
+      } else {
+        iLeft = bpIdx;
+      }
+
+      bpIdx = (iRght + iLeft) >> 1UL;
+    }
+
+    frac = (u0 - bp0[iLeft]) / (bp0[iLeft + 1UL] - bp0[iLeft]);
+  } else {
+    iLeft = maxIndex - 1UL;
+    frac = (u0 - bp0[maxIndex - 1UL]) / (bp0[maxIndex] - bp0[maxIndex - 1UL]);
   }
 
-  (test_M->Timing.TaskCounters.TID[2])++;
-  if ((test_M->Timing.TaskCounters.TID[2]) > 699) {/* Sample time: [7.0s, 0.0s] */
-    test_M->Timing.TaskCounters.TID[2] = 0;
-  }
+  /* Interpolation 1-D
+     Interpolation method: 'Linear'
+     Use last breakpoint for index at or above upper limit: 'off'
+     Overflow mode: 'portable wrapping'
+   */
+  return (table[iLeft + 1UL] - table[iLeft]) * frac + table[iLeft];
 }
 
-/* Model output function for TID0 */
-void test_output0(void)                /* Sample time: [0.01s, 0.0s] */
+real_T rt_roundd_snf(real_T u)
 {
-  real_T rtb_Bias;
-  int8_T tmp;
-
-  {                                    /* Sample time: [0.01s, 0.0s] */
-    rate_monotonic_scheduler();
-  }
-
-  /* DiscretePulseGenerator: '<Root>/Pulse Generator' */
-  rtb_Bias = (test_DW.clockTickCounter < test_P.PulseGenerator_Duty) &&
-    (test_DW.clockTickCounter >= 0L) ? test_P.PulseGenerator_Amp : 0.0;
-  if (test_DW.clockTickCounter >= test_P.PulseGenerator_Period - 1.0) {
-    test_DW.clockTickCounter = 0L;
-  } else {
-    test_DW.clockTickCounter++;
-  }
-
-  /* End of DiscretePulseGenerator: '<Root>/Pulse Generator' */
-
-  /* Gain: '<S1>/Gain' */
-  rtb_Bias *= test_P.Gain_Gain;
-
-  /* Saturate: '<S1>/Saturation' */
-  if (rtb_Bias > test_P.Saturation_UpperSat) {
-    rtb_Bias = test_P.Saturation_UpperSat;
-  } else {
-    if (rtb_Bias < test_P.Saturation_LowerSat) {
-      rtb_Bias = test_P.Saturation_LowerSat;
-    }
-  }
-
-  /* DataTypeConversion: '<S4>/Data Type Conversion' incorporates:
-   *  Bias: '<S1>/Bias'
-   *  Saturate: '<S1>/Saturation'
-   *  UnaryMinus: '<S1>/Unary Minus'
-   */
-  rtb_Bias = floor(-rtb_Bias + test_P.Bias_Bias);
-  if (rtb_Bias < 128.0) {
-    if (rtb_Bias >= -128.0) {
-      tmp = (int8_T)rtb_Bias;
+  real_T y;
+  if (fabs(u) < 4.503599627370496E+15) {
+    if (u >= 0.5) {
+      y = floor(u + 0.5);
+    } else if (u > -0.5) {
+      y = u * 0.0;
     } else {
-      tmp = MIN_int8_T;
+      y = ceil(u - 0.5);
     }
   } else {
-    tmp = MAX_int8_T;
+    y = u;
   }
 
-  /* End of DataTypeConversion: '<S4>/Data Type Conversion' */
-
-  /* S-Function (arduinoservowrite_sfcn): '<S4>/Servo Write' incorporates:
-   *  Constant: '<S4>/Constant'
-   *  Sum: '<S4>/Add'
-   */
-  MW_servoWrite(test_P.ServoWrite_p1, (uint8_T)((uint16_T)(uint8_T)tmp +
-    test_P.Constant_Value_d));
+  return y;
 }
 
-/* Model update function for TID0 */
-void test_update0(void)                /* Sample time: [0.01s, 0.0s] */
+real_T rt_remd_snf(real_T u0, real_T u1)
 {
-  /* (no update code required) */
+  real_T y;
+  real_T u1_0;
+  if (!((!rtIsNaN(u0)) && (!rtIsInf(u0)) && ((!rtIsNaN(u1)) && (!rtIsInf(u1)))))
+  {
+    y = (rtNaN);
+  } else {
+    if (u1 < 0.0) {
+      u1_0 = ceil(u1);
+    } else {
+      u1_0 = floor(u1);
+    }
+
+    if ((u1 != 0.0) && (u1 != u1_0)) {
+      u1_0 = u0 / u1;
+      if (fabs(u1_0 - rt_roundd_snf(u1_0)) <= DBL_EPSILON * fabs(u1_0)) {
+        y = 0.0;
+      } else {
+        y = fmod(u0, u1);
+      }
+    } else {
+      y = fmod(u0, u1);
+    }
+  }
+
+  return y;
 }
 
-/* Model output function for TID1 */
-void test_output1(void)                /* Sample time: [1.0s, 0.0s] */
+/* Model output function */
+void test_output(void)
 {
-  uint8_T rtb_FixPtSum1;
+  /* local block i/o variables */
+  real_T rtb_Bias2;
   real_T tmp;
 
-  /* Saturate: '<S1>/Saturation2' incorporates:
-   *  Constant: '<S2>/Vector'
-   *  MultiPortSwitch: '<S2>/Output'
-   *  UnitDelay: '<S11>/Output'
+  /* Clock: '<S4>/Clock' */
+  rtb_Bias2 = test_M->Timing.t[0];
+
+  /* Sum: '<S4>/Sum' incorporates:
+   *  S-Function (sfun_tstart): '<S4>/startTime'
    */
-  if (test_P.RepeatingSequenceStair_OutValue[test_DW.Output_DSTATE_g] >
-      test_P.Saturation2_UpperSat) {
-    tmp = test_P.Saturation2_UpperSat;
-  } else if (test_P.RepeatingSequenceStair_OutValue[test_DW.Output_DSTATE_g] <
-             test_P.Saturation2_LowerSat) {
-    tmp = test_P.Saturation2_LowerSat;
+  rtb_Bias2 -= (0.0);
+
+  /* Math: '<S4>/Math Function' incorporates:
+   *  Constant: '<S4>/Constant'
+   */
+  rtb_Bias2 = rt_remd_snf(rtb_Bias2, test_P.Constant_Value);
+
+  /* Lookup_n-D: '<S4>/Look-Up Table1' */
+  rtb_Bias2 = look1_binlxpw(rtb_Bias2, test_P.LookUpTable1_bp01Data,
+    test_P.RepeatingSequence3_rep_seq_y, 8UL);
+
+  /* Gain: '<S1>/Gain' */
+  rtb_Bias2 *= test_P.Gain_Gain;
+
+  /* Saturate: '<S1>/Saturation' */
+  if (rtb_Bias2 > test_P.Saturation_UpperSat) {
+    tmp = test_P.Saturation_UpperSat;
+  } else if (rtb_Bias2 < test_P.Saturation_LowerSat) {
+    tmp = test_P.Saturation_LowerSat;
   } else {
-    tmp = test_P.RepeatingSequenceStair_OutValue[test_DW.Output_DSTATE_g];
+    tmp = rtb_Bias2;
   }
 
-  /* DataTypeConversion: '<S7>/Data Type Conversion' incorporates:
-   *  Bias: '<S1>/Bias2'
-   *  Saturate: '<S1>/Saturation2'
+  /* Bias: '<S1>/Bias' incorporates:
+   *  Saturate: '<S1>/Saturation'
    */
-  tmp += test_P.Bias2_Bias;
-  if (tmp < 256.0) {
-    if (tmp >= 0.0) {
-      rtb_FixPtSum1 = (uint8_T)tmp;
+  rtb_Bias2 = tmp + test_P.Bias_Bias;
+
+  /* DataTypeConversion: '<S7>/Data Type Conversion' */
+  if (rtb_Bias2 < 256.0) {
+    if (rtb_Bias2 >= 0.0) {
+      test_B.DataTypeConversion = (uint8_T)rtb_Bias2;
     } else {
-      rtb_FixPtSum1 = 0U;
+      test_B.DataTypeConversion = 0U;
     }
   } else {
-    rtb_FixPtSum1 = MAX_uint8_T;
+    test_B.DataTypeConversion = MAX_uint8_T;
   }
 
   /* End of DataTypeConversion: '<S7>/Data Type Conversion' */
 
   /* S-Function (arduinoservowrite_sfcn): '<S7>/Servo Write' */
-  MW_servoWrite(test_P.ServoWrite_p1_a, rtb_FixPtSum1);
+  MW_servoWrite(test_P.ServoWrite_p1, test_B.DataTypeConversion);
 
-  /* Sum: '<S12>/FixPt Sum1' incorporates:
-   *  Constant: '<S12>/FixPt Constant'
-   *  UnitDelay: '<S11>/Output'
+  /* Clock: '<S3>/Clock' */
+  rtb_Bias2 = test_M->Timing.t[0];
+
+  /* Sum: '<S3>/Sum' incorporates:
+   *  S-Function (sfun_tstart): '<S3>/startTime'
    */
-  rtb_FixPtSum1 = (uint8_T)((uint16_T)test_DW.Output_DSTATE_g +
-    test_P.FixPtConstant_Value);
+  rtb_Bias2 -= (0.0);
 
-  /* Switch: '<S13>/FixPt Switch' incorporates:
-   *  Constant: '<S13>/Constant'
+  /* Math: '<S3>/Math Function' incorporates:
+   *  Constant: '<S3>/Constant'
    */
-  if (rtb_FixPtSum1 > test_P.LimitedCounter_uplimit) {
-    test_B.FixPtSwitch = test_P.Constant_Value;
-  } else {
-    test_B.FixPtSwitch = rtb_FixPtSum1;
-  }
+  rtb_Bias2 = rt_remd_snf(rtb_Bias2, test_P.Constant_Value_c);
 
-  /* End of Switch: '<S13>/FixPt Switch' */
-}
+  /* Lookup_n-D: '<S3>/Look-Up Table1' */
+  rtb_Bias2 = look1_binlxpw(rtb_Bias2, test_P.LookUpTable1_bp01Data_c,
+    test_P.RepeatingSequence1_rep_seq_y, 25UL);
 
-/* Model update function for TID1 */
-void test_update1(void)                /* Sample time: [1.0s, 0.0s] */
-{
-  /* Update for UnitDelay: '<S11>/Output' */
-  test_DW.Output_DSTATE_g = test_B.FixPtSwitch;
-}
-
-/* Model output function for TID2 */
-void test_output2(void)                /* Sample time: [7.0s, 0.0s] */
-{
-  uint8_T rtb_FixPtSum1;
-  real_T tmp;
-
-  /* Saturate: '<S1>/Saturation1' incorporates:
-   *  Constant: '<S3>/Vector'
-   *  MultiPortSwitch: '<S3>/Output'
-   *  UnitDelay: '<S14>/Output'
-   */
-  if (test_P.RepeatingSequenceStair1_OutValu[test_DW.Output_DSTATE] >
-      test_P.Saturation1_UpperSat) {
+  /* Saturate: '<S1>/Saturation1' */
+  if (rtb_Bias2 > test_P.Saturation1_UpperSat) {
     tmp = test_P.Saturation1_UpperSat;
-  } else if (test_P.RepeatingSequenceStair1_OutValu[test_DW.Output_DSTATE] <
-             test_P.Saturation1_LowerSat) {
+  } else if (rtb_Bias2 < test_P.Saturation1_LowerSat) {
     tmp = test_P.Saturation1_LowerSat;
   } else {
-    tmp = test_P.RepeatingSequenceStair1_OutValu[test_DW.Output_DSTATE];
+    tmp = rtb_Bias2;
   }
 
-  /* DataTypeConversion: '<S6>/Data Type Conversion' incorporates:
-   *  Bias: '<S1>/Bias1'
+  /* Bias: '<S1>/Bias1' incorporates:
    *  Saturate: '<S1>/Saturation1'
    *  UnaryMinus: '<S1>/Unary Minus1'
    */
-  tmp = -tmp + test_P.Bias1_Bias;
-  if (tmp < 256.0) {
-    if (tmp >= 0.0) {
-      rtb_FixPtSum1 = (uint8_T)tmp;
+  rtb_Bias2 = -tmp + test_P.Bias1_Bias;
+
+  /* DataTypeConversion: '<S8>/Data Type Conversion' */
+  if (rtb_Bias2 < 256.0) {
+    if (rtb_Bias2 >= 0.0) {
+      test_B.DataTypeConversion_b = (uint8_T)rtb_Bias2;
     } else {
-      rtb_FixPtSum1 = 0U;
+      test_B.DataTypeConversion_b = 0U;
     }
   } else {
-    rtb_FixPtSum1 = MAX_uint8_T;
+    test_B.DataTypeConversion_b = MAX_uint8_T;
   }
 
-  /* End of DataTypeConversion: '<S6>/Data Type Conversion' */
+  /* End of DataTypeConversion: '<S8>/Data Type Conversion' */
 
-  /* S-Function (arduinoservowrite_sfcn): '<S6>/Servo Write' */
-  MW_servoWrite(test_P.ServoWrite_p1_g, rtb_FixPtSum1);
+  /* S-Function (arduinoservowrite_sfcn): '<S8>/Servo Write' */
+  MW_servoWrite(test_P.ServoWrite_p1_g, test_B.DataTypeConversion_b);
 
-  /* Sum: '<S15>/FixPt Sum1' incorporates:
-   *  Constant: '<S15>/FixPt Constant'
-   *  UnitDelay: '<S14>/Output'
+  /* Clock: '<S2>/Clock' */
+  rtb_Bias2 = test_M->Timing.t[0];
+
+  /* Sum: '<S2>/Sum' incorporates:
+   *  S-Function (sfun_tstart): '<S2>/startTime'
    */
-  rtb_FixPtSum1 = (uint8_T)((uint16_T)test_DW.Output_DSTATE +
-    test_P.FixPtConstant_Value_d);
+  rtb_Bias2 -= (0.0);
 
-  /* Switch: '<S16>/FixPt Switch' incorporates:
-   *  Constant: '<S16>/Constant'
+  /* Math: '<S2>/Math Function' incorporates:
+   *  Constant: '<S2>/Constant'
    */
-  if (rtb_FixPtSum1 > test_P.LimitedCounter_uplimit_h) {
-    test_B.FixPtSwitch_d = test_P.Constant_Value_c;
+  rtb_Bias2 = rt_remd_snf(rtb_Bias2, test_P.Constant_Value_a);
+
+  /* Lookup_n-D: '<S2>/Look-Up Table1' */
+  rtb_Bias2 = look1_binlxpw(rtb_Bias2, test_P.LookUpTable1_bp01Data_d,
+    test_P.RepeatingSequence_rep_seq_y, 25UL);
+
+  /* Saturate: '<S1>/Saturation2' */
+  if (rtb_Bias2 > test_P.Saturation2_UpperSat) {
+    tmp = test_P.Saturation2_UpperSat;
+  } else if (rtb_Bias2 < test_P.Saturation2_LowerSat) {
+    tmp = test_P.Saturation2_LowerSat;
   } else {
-    test_B.FixPtSwitch_d = rtb_FixPtSum1;
+    tmp = rtb_Bias2;
   }
 
-  /* End of Switch: '<S16>/FixPt Switch' */
+  /* Bias: '<S1>/Bias2' incorporates:
+   *  Saturate: '<S1>/Saturation2'
+   */
+  rtb_Bias2 = tmp + test_P.Bias2_Bias;
+
+  /* DataTypeConversion: '<S9>/Data Type Conversion' */
+  if (rtb_Bias2 < 256.0) {
+    if (rtb_Bias2 >= 0.0) {
+      test_B.DataTypeConversion_i = (uint8_T)rtb_Bias2;
+    } else {
+      test_B.DataTypeConversion_i = 0U;
+    }
+  } else {
+    test_B.DataTypeConversion_i = MAX_uint8_T;
+  }
+
+  /* End of DataTypeConversion: '<S9>/Data Type Conversion' */
+
+  /* S-Function (arduinoservowrite_sfcn): '<S9>/Servo Write' */
+  MW_servoWrite(test_P.ServoWrite_p1_a, test_B.DataTypeConversion_i);
 }
 
-/* Model update function for TID2 */
-void test_update2(void)                /* Sample time: [7.0s, 0.0s] */
+/* Model update function */
+void test_update(void)
 {
-  /* Update for UnitDelay: '<S14>/Output' */
-  test_DW.Output_DSTATE = test_B.FixPtSwitch_d;
+  /* Update absolute time for base rate */
+  /* The "clockTick0" counts the number of times the code of this task has
+   * been executed. The absolute time is the multiplication of "clockTick0"
+   * and "Timing.stepSize0". Size of "clockTick0" ensures timer will not
+   * overflow during the application lifespan selected.
+   */
+  test_M->Timing.t[0] =
+    (++test_M->Timing.clockTick0) * test_M->Timing.stepSize0;
+
+  {
+    /* Update absolute timer for sample time: [0.01s, 0.0s] */
+    /* The "clockTick1" counts the number of times the code of this task has
+     * been executed. The resolution of this integer timer is 0.01, which is the step size
+     * of the task. Size of "clockTick1" ensures timer will not overflow during the
+     * application lifespan selected.
+     */
+    test_M->Timing.clockTick1++;
+  }
 }
 
 /* Model initialize function */
@@ -262,35 +310,40 @@ void test_initialize(void)
 {
   /* Registration code */
 
+  /* initialize non-finites */
+  rt_InitInfAndNaN(sizeof(real_T));
+
   /* initialize real-time model */
   (void) memset((void *)test_M, 0,
                 sizeof(RT_MODEL_test_T));
+
+  {
+    /* Setup solver object */
+    rtsiSetSimTimeStepPtr(&test_M->solverInfo, &test_M->Timing.simTimeStep);
+    rtsiSetTPtr(&test_M->solverInfo, &rtmGetTPtr(test_M));
+    rtsiSetStepSizePtr(&test_M->solverInfo, &test_M->Timing.stepSize0);
+    rtsiSetErrorStatusPtr(&test_M->solverInfo, ((const char_T **)
+      (&rtmGetErrorStatus(test_M))));
+    rtsiSetRTModelPtr(&test_M->solverInfo, test_M);
+  }
+
+  rtsiSetSimTimeStep(&test_M->solverInfo, MAJOR_TIME_STEP);
+  rtsiSetSolverName(&test_M->solverInfo,"FixedStepDiscrete");
+  rtmSetTPtr(test_M, &test_M->Timing.tArray[0]);
+  test_M->Timing.stepSize0 = 0.01;
 
   /* block I/O */
   (void) memset(((void *) &test_B), 0,
                 sizeof(B_test_T));
 
-  /* states (dwork) */
-  (void) memset((void *)&test_DW, 0,
-                sizeof(DW_test_T));
-
-  /* Start for DiscretePulseGenerator: '<Root>/Pulse Generator' */
-  test_DW.clockTickCounter = 0L;
-
-  /* Start for S-Function (arduinoservowrite_sfcn): '<S4>/Servo Write' */
+  /* Start for S-Function (arduinoservowrite_sfcn): '<S7>/Servo Write' */
   MW_servoAttach(test_P.ServoWrite_p1, test_P.ServoWrite_pinNumber);
 
-  /* Start for S-Function (arduinoservowrite_sfcn): '<S6>/Servo Write' */
+  /* Start for S-Function (arduinoservowrite_sfcn): '<S8>/Servo Write' */
   MW_servoAttach(test_P.ServoWrite_p1_g, test_P.ServoWrite_pinNumber_k);
 
-  /* Start for S-Function (arduinoservowrite_sfcn): '<S7>/Servo Write' */
+  /* Start for S-Function (arduinoservowrite_sfcn): '<S9>/Servo Write' */
   MW_servoAttach(test_P.ServoWrite_p1_a, test_P.ServoWrite_pinNumber_l);
-
-  /* InitializeConditions for UnitDelay: '<S14>/Output' */
-  test_DW.Output_DSTATE = test_P.Output_InitialCondition;
-
-  /* InitializeConditions for UnitDelay: '<S11>/Output' */
-  test_DW.Output_DSTATE_g = test_P.Output_InitialCondition_f;
 }
 
 /* Model terminate function */

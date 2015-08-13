@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'test'.
  *
- * Model version                  : 1.36
+ * Model version                  : 1.45
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Wed Aug 12 21:22:23 2015
+ * C/C++ source code generated on : Thu Aug 13 15:19:07 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -34,9 +34,9 @@ volatile uint8_T scheduler_counter = 0;
 #define SCHEDULER_COUNTER_TARGET       5
 
 volatile int IsrOverrun = 0;
-boolean_T isRateRunning[3] = { 0, 0, 0 };
+boolean_T isRateRunning[2] = { 0, 0 };
 
-boolean_T need2runFlags[3] = { 0, 0, 0 };
+boolean_T need2runFlags[2] = { 0, 0 };
 
 /*
  * The timer interrupt handler (gets invoked on every counter overflow).
@@ -73,8 +73,7 @@ static void arduino_Timer_Setup()
 
 void rt_OneStep(void)
 {
-  boolean_T eventFlags[3];
-  int_T i;
+  boolean_T eventFlags[2];
 
   /* Check base rate for overrun */
   if (isRateRunning[0]++) {
@@ -90,58 +89,36 @@ void rt_OneStep(void)
    * following code checks whether any subrate overruns,
    * and also sets the rates that need to run this time step.
    */
-  for (i = 1; i < 3; i++) {
-    eventFlags[i] = ((boolean_T)rtmStepTask(test_M, i));
-  }
-
-  test_output0();
+  test_output();
 
   /* Get model outputs here */
-  test_update0();
+  test_update();
   cli();
   isRateRunning[0]--;
-  for (i = 1; i < 3; i++) {
-    if (eventFlags[i]) {
-      if (need2runFlags[i]++) {
-        IsrOverrun = 1;
-        need2runFlags[i]--;            /* allow future iterations to succeed*/
-        break;
-      }
+  if (eventFlags[1]) {
+    if (need2runFlags[1]++) {
+      IsrOverrun = 1;
+      need2runFlags[1]--;              /* allow future iterations to succeed*/
+      return;
     }
   }
 
-  for (i = 1; i < 3; i++) {
-    if (isRateRunning[i]) {
+  if (need2runFlags[1]) {
+    if (isRateRunning[1]) {
       /* Yield to higher priority*/
       return;
     }
 
-    if (need2runFlags[i]) {
-      isRateRunning[i]++;
-      sei();
-      switch (i) {
-       case 1:
-        test_output1();
-
-        /* Get model outputs here */
-        test_update1();
-        break;
-
-       case 2:
-        test_output2();
-
-        /* Get model outputs here */
-        test_update2();
-        break;
-
-       default:
-        break;
-      }
-
-      cli();
-      need2runFlags[i]--;
-      isRateRunning[i]--;
+    isRateRunning[1]++;
+    sei();
+    switch (1) {
+     default:
+      break;
     }
+
+    cli();
+    need2runFlags[1]--;
+    isRateRunning[1]--;
   }
 }
 

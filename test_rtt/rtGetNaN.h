@@ -3,7 +3,7 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * File: test_types.h
+ * File: rtGetNaN.h
  *
  * Code generated for Simulink model 'test'.
  *
@@ -18,17 +18,16 @@
  * Validation result: Not run
  */
 
-#ifndef RTW_HEADER_test_types_h_
-#define RTW_HEADER_test_types_h_
+#ifndef RTW_HEADER_rtGetNaN_h_
+#define RTW_HEADER_rtGetNaN_h_
+#include <stddef.h>
 #include "rtwtypes.h"
+#include "rt_nonfinite.h"
 
-/* Parameters (auto storage) */
-typedef struct P_test_T_ P_test_T;
+extern real_T rtGetNaN(void);
+extern real32_T rtGetNaNF(void);
 
-/* Forward declaration for rtModel */
-typedef struct tag_RTM_test_T RT_MODEL_test_T;
-
-#endif                                 /* RTW_HEADER_test_types_h_ */
+#endif                                 /* RTW_HEADER_rtGetNaN_h_ */
 
 /*
  * File trailer for generated code.
