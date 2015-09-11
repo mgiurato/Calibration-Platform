@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'test'.
  *
- * Model version                  : 1.45
+ * Model version                  : 1.46
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Thu Aug 13 15:19:07 2015
+ * C/C++ source code generated on : Tue Sep  8 14:56:21 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -34,9 +34,9 @@ volatile uint8_T scheduler_counter = 0;
 #define SCHEDULER_COUNTER_TARGET       5
 
 volatile int IsrOverrun = 0;
-boolean_T isRateRunning[2] = { 0, 0 };
+boolean_T isRateRunning[1] = { 0 };
 
-boolean_T need2runFlags[2] = { 0, 0 };
+boolean_T need2runFlags[1] = { 0 };
 
 /*
  * The timer interrupt handler (gets invoked on every counter overflow).
@@ -73,7 +73,7 @@ static void arduino_Timer_Setup()
 
 void rt_OneStep(void)
 {
-  boolean_T eventFlags[2];
+  boolean_T eventFlags[1];
 
   /* Check base rate for overrun */
   if (isRateRunning[0]++) {
@@ -95,30 +95,30 @@ void rt_OneStep(void)
   test_update();
   cli();
   isRateRunning[0]--;
-  if (eventFlags[1]) {
-    if (need2runFlags[1]++) {
+  if (eventFlags[0]) {
+    if (need2runFlags[0]++) {
       IsrOverrun = 1;
-      need2runFlags[1]--;              /* allow future iterations to succeed*/
+      need2runFlags[0]--;              /* allow future iterations to succeed*/
       return;
     }
   }
 
-  if (need2runFlags[1]) {
+  if (need2runFlags[0]) {
     if (isRateRunning[1]) {
       /* Yield to higher priority*/
       return;
     }
 
-    isRateRunning[1]++;
+    isRateRunning[0]++;
     sei();
-    switch (1) {
+    switch (0) {
      default:
       break;
     }
 
     cli();
-    need2runFlags[1]--;
-    isRateRunning[1]--;
+    need2runFlags[0]--;
+    isRateRunning[0]--;
   }
 }
 
