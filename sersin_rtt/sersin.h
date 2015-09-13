@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'sersin'.
  *
- * Model version                  : 1.55
+ * Model version                  : 1.63
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Fri Sep 11 19:58:22 2015
+ * C/C++ source code generated on : Sun Sep 13 19:18:28 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -51,8 +51,9 @@
 
 /* Block signals (auto storage) */
 typedef struct {
-  uint8_T DataTypeConversion;          /* '<S3>/Data Type Conversion' */
-  uint8_T DataTypeConversion_e;        /* '<S4>/Data Type Conversion' */
+  uint8_T DataTypeConversion;          /* '<S4>/Data Type Conversion' */
+  uint8_T DataTypeConversion_e;        /* '<S5>/Data Type Conversion' */
+  uint8_T DataTypeConversion_c;        /* '<S6>/Data Type Conversion' */
 } B_sersin_T;
 
 /* Parameters (auto storage) */
@@ -63,14 +64,17 @@ struct P_sersin_T_ {
   real_T RepeatingSequence2_rep_seq_y[33];/* Mask Parameter: RepeatingSequence2_rep_seq_y
                                            * Referenced by: '<S2>/Look-Up Table1'
                                            */
+  real_T RepeatingSequence4_rep_seq_y[10];/* Mask Parameter: RepeatingSequence4_rep_seq_y
+                                           * Referenced by: '<S3>/Look-Up Table1'
+                                           */
   uint32_T ServoWrite_pinNumber;       /* Mask Parameter: ServoWrite_pinNumber
-                                        * Referenced by: '<S3>/Servo Write'
-                                        */
-  uint32_T ServoWrite_pinNumber_f;     /* Mask Parameter: ServoWrite_pinNumber_f
                                         * Referenced by: '<S4>/Servo Write'
                                         */
-  uint32_T ServoWrite_pinNumber_n;     /* Mask Parameter: ServoWrite_pinNumber_n
+  uint32_T ServoWrite_pinNumber_f;     /* Mask Parameter: ServoWrite_pinNumber_f
                                         * Referenced by: '<S5>/Servo Write'
+                                        */
+  uint32_T ServoWrite_pinNumber_n;     /* Mask Parameter: ServoWrite_pinNumber_n
+                                        * Referenced by: '<S6>/Servo Write'
                                         */
   real_T Constant_Value;               /* Expression: period
                                         * Referenced by: '<S1>/Constant'
@@ -111,8 +115,11 @@ struct P_sersin_T_ {
   real_T Bias1_Bias;                   /* Expression: 89
                                         * Referenced by: '<Root>/Bias1'
                                         */
-  real_T Constant2_Value;              /* Expression: 0
-                                        * Referenced by: '<Root>/Constant2'
+  real_T Constant_Value_d;             /* Expression: period
+                                        * Referenced by: '<S3>/Constant'
+                                        */
+  real_T LookUpTable1_bp01Data_g[10];  /* Expression: rep_seq_t - min(rep_seq_t)
+                                        * Referenced by: '<S3>/Look-Up Table1'
                                         */
   real_T Saturation2_UpperSat;         /* Expression: 180
                                         * Referenced by: '<Root>/Saturation2'
@@ -120,7 +127,7 @@ struct P_sersin_T_ {
   real_T Saturation2_LowerSat;         /* Expression: -180
                                         * Referenced by: '<Root>/Saturation2'
                                         */
-  real_T Gain4_Gain;                   /* Expression: (130-25)/180
+  real_T Gain4_Gain;                   /* Expression: (115-35)/180
                                         * Referenced by: '<Root>/Gain4'
                                         */
   real_T Gain2_Gain;                   /* Expression: 59/94
@@ -130,13 +137,13 @@ struct P_sersin_T_ {
                                         * Referenced by: '<Root>/Bias2'
                                         */
   uint8_T ServoWrite_p1;               /* Computed Parameter: ServoWrite_p1
-                                        * Referenced by: '<S3>/Servo Write'
-                                        */
-  uint8_T ServoWrite_p1_e;             /* Computed Parameter: ServoWrite_p1_e
                                         * Referenced by: '<S4>/Servo Write'
                                         */
-  uint8_T ServoWrite_p1_d;             /* Computed Parameter: ServoWrite_p1_d
+  uint8_T ServoWrite_p1_e;             /* Computed Parameter: ServoWrite_p1_e
                                         * Referenced by: '<S5>/Servo Write'
+                                        */
+  uint8_T ServoWrite_p1_d;             /* Computed Parameter: ServoWrite_p1_d
+                                        * Referenced by: '<S6>/Servo Write'
                                         */
 };
 
@@ -192,9 +199,10 @@ extern RT_MODEL_sersin_T *const sersin_M;
  * '<Root>' : 'sersin'
  * '<S1>'   : 'sersin/Repeating Sequence1'
  * '<S2>'   : 'sersin/Repeating Sequence2'
- * '<S3>'   : 'sersin/Standard Servo Write'
- * '<S4>'   : 'sersin/Standard Servo Write1'
- * '<S5>'   : 'sersin/Standard Servo Write2'
+ * '<S3>'   : 'sersin/Repeating Sequence4'
+ * '<S4>'   : 'sersin/Standard Servo Write'
+ * '<S5>'   : 'sersin/Standard Servo Write1'
+ * '<S6>'   : 'sersin/Standard Servo Write2'
  */
 #endif                                 /* RTW_HEADER_sersin_h_ */
 

@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'sersin'.
  *
- * Model version                  : 1.55
+ * Model version                  : 1.63
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Fri Sep 11 19:58:22 2015
+ * C/C++ source code generated on : Sun Sep 13 19:18:28 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -133,46 +133,46 @@ real_T rt_remd_snf(real_T u0, real_T u1)
 void sersin_output(void)
 {
   /* local block i/o variables */
-  real_T rtb_Bias1;
+  real_T rtb_Bias2;
   real_T tmp;
-  uint8_T tmp_0;
 
   /* Clock: '<S1>/Clock' */
-  rtb_Bias1 = sersin_M->Timing.t[0];
+  rtb_Bias2 = sersin_M->Timing.t[0];
 
   /* Sum: '<S1>/Sum' incorporates:
    *  S-Function (sfun_tstart): '<S1>/startTime'
    */
-  rtb_Bias1 -= (0.0);
+  rtb_Bias2 -= (0.0);
 
   /* Math: '<S1>/Math Function' incorporates:
    *  Constant: '<S1>/Constant'
    */
-  rtb_Bias1 = rt_remd_snf(rtb_Bias1, sersin_P.Constant_Value);
+  rtb_Bias2 = rt_remd_snf(rtb_Bias2, sersin_P.Constant_Value);
 
   /* Lookup_n-D: '<S1>/Look-Up Table1' */
-  rtb_Bias1 = look1_binlxpw(rtb_Bias1, sersin_P.LookUpTable1_bp01Data,
+  rtb_Bias2 = look1_binlxpw(rtb_Bias2, sersin_P.LookUpTable1_bp01Data,
     sersin_P.RepeatingSequence1_rep_seq_y, 16UL);
 
   /* Saturate: '<Root>/Saturation' */
-  if (rtb_Bias1 > sersin_P.Saturation_UpperSat) {
+  if (rtb_Bias2 > sersin_P.Saturation_UpperSat) {
     tmp = sersin_P.Saturation_UpperSat;
-  } else if (rtb_Bias1 < sersin_P.Saturation_LowerSat) {
+  } else if (rtb_Bias2 < sersin_P.Saturation_LowerSat) {
     tmp = sersin_P.Saturation_LowerSat;
   } else {
-    tmp = rtb_Bias1;
+    tmp = rtb_Bias2;
   }
 
   /* Bias: '<Root>/Bias' incorporates:
    *  Gain: '<Root>/Gain'
    *  Saturate: '<Root>/Saturation'
+   *  UnaryMinus: '<Root>/Unary Minus'
    */
-  rtb_Bias1 = sersin_P.Gain_Gain * tmp + sersin_P.Bias_Bias;
+  rtb_Bias2 = sersin_P.Gain_Gain * -tmp + sersin_P.Bias_Bias;
 
-  /* DataTypeConversion: '<S3>/Data Type Conversion' */
-  if (rtb_Bias1 < 256.0) {
-    if (rtb_Bias1 >= 0.0) {
-      sersin_B.DataTypeConversion = (uint8_T)rtb_Bias1;
+  /* DataTypeConversion: '<S4>/Data Type Conversion' */
+  if (rtb_Bias2 < 256.0) {
+    if (rtb_Bias2 >= 0.0) {
+      sersin_B.DataTypeConversion = (uint8_T)rtb_Bias2;
     } else {
       sersin_B.DataTypeConversion = 0U;
     }
@@ -180,35 +180,35 @@ void sersin_output(void)
     sersin_B.DataTypeConversion = MAX_uint8_T;
   }
 
-  /* End of DataTypeConversion: '<S3>/Data Type Conversion' */
+  /* End of DataTypeConversion: '<S4>/Data Type Conversion' */
 
-  /* S-Function (arduinoservowrite_sfcn): '<S3>/Servo Write' */
+  /* S-Function (arduinoservowrite_sfcn): '<S4>/Servo Write' */
   MW_servoWrite(sersin_P.ServoWrite_p1, sersin_B.DataTypeConversion);
 
   /* Clock: '<S2>/Clock' */
-  rtb_Bias1 = sersin_M->Timing.t[0];
+  rtb_Bias2 = sersin_M->Timing.t[0];
 
   /* Sum: '<S2>/Sum' incorporates:
    *  S-Function (sfun_tstart): '<S2>/startTime'
    */
-  rtb_Bias1 -= (0.0);
+  rtb_Bias2 -= (0.0);
 
   /* Math: '<S2>/Math Function' incorporates:
    *  Constant: '<S2>/Constant'
    */
-  rtb_Bias1 = rt_remd_snf(rtb_Bias1, sersin_P.Constant_Value_b);
+  rtb_Bias2 = rt_remd_snf(rtb_Bias2, sersin_P.Constant_Value_b);
 
   /* Lookup_n-D: '<S2>/Look-Up Table1' */
-  rtb_Bias1 = look1_binlxpw(rtb_Bias1, sersin_P.LookUpTable1_bp01Data_h,
+  rtb_Bias2 = look1_binlxpw(rtb_Bias2, sersin_P.LookUpTable1_bp01Data_h,
     sersin_P.RepeatingSequence2_rep_seq_y, 32UL);
 
   /* Saturate: '<Root>/Saturation1' */
-  if (rtb_Bias1 > sersin_P.Saturation1_UpperSat) {
+  if (rtb_Bias2 > sersin_P.Saturation1_UpperSat) {
     tmp = sersin_P.Saturation1_UpperSat;
-  } else if (rtb_Bias1 < sersin_P.Saturation1_LowerSat) {
+  } else if (rtb_Bias2 < sersin_P.Saturation1_LowerSat) {
     tmp = sersin_P.Saturation1_LowerSat;
   } else {
-    tmp = rtb_Bias1;
+    tmp = rtb_Bias2;
   }
 
   /* Bias: '<Root>/Bias1' incorporates:
@@ -216,13 +216,13 @@ void sersin_output(void)
    *  Gain: '<Root>/Gain3'
    *  Saturate: '<Root>/Saturation1'
    */
-  rtb_Bias1 = sersin_P.Gain3_Gain * tmp * sersin_P.Gain1_Gain +
+  rtb_Bias2 = sersin_P.Gain3_Gain * tmp * sersin_P.Gain1_Gain +
     sersin_P.Bias1_Bias;
 
-  /* DataTypeConversion: '<S4>/Data Type Conversion' */
-  if (rtb_Bias1 < 256.0) {
-    if (rtb_Bias1 >= 0.0) {
-      sersin_B.DataTypeConversion_e = (uint8_T)rtb_Bias1;
+  /* DataTypeConversion: '<S5>/Data Type Conversion' */
+  if (rtb_Bias2 < 256.0) {
+    if (rtb_Bias2 >= 0.0) {
+      sersin_B.DataTypeConversion_e = (uint8_T)rtb_Bias2;
     } else {
       sersin_B.DataTypeConversion_e = 0U;
     }
@@ -230,43 +230,60 @@ void sersin_output(void)
     sersin_B.DataTypeConversion_e = MAX_uint8_T;
   }
 
-  /* End of DataTypeConversion: '<S4>/Data Type Conversion' */
+  /* End of DataTypeConversion: '<S5>/Data Type Conversion' */
 
-  /* S-Function (arduinoservowrite_sfcn): '<S4>/Servo Write' */
+  /* S-Function (arduinoservowrite_sfcn): '<S5>/Servo Write' */
   MW_servoWrite(sersin_P.ServoWrite_p1_e, sersin_B.DataTypeConversion_e);
 
-  /* Saturate: '<Root>/Saturation2' incorporates:
-   *  Constant: '<Root>/Constant2'
+  /* Clock: '<S3>/Clock' */
+  rtb_Bias2 = sersin_M->Timing.t[0];
+
+  /* Sum: '<S3>/Sum' incorporates:
+   *  S-Function (sfun_tstart): '<S3>/startTime'
    */
-  if (sersin_P.Constant2_Value > sersin_P.Saturation2_UpperSat) {
+  rtb_Bias2 -= (0.0);
+
+  /* Math: '<S3>/Math Function' incorporates:
+   *  Constant: '<S3>/Constant'
+   */
+  rtb_Bias2 = rt_remd_snf(rtb_Bias2, sersin_P.Constant_Value_d);
+
+  /* Lookup_n-D: '<S3>/Look-Up Table1' */
+  rtb_Bias2 = look1_binlxpw(rtb_Bias2, sersin_P.LookUpTable1_bp01Data_g,
+    sersin_P.RepeatingSequence4_rep_seq_y, 9UL);
+
+  /* Saturate: '<Root>/Saturation2' */
+  if (rtb_Bias2 > sersin_P.Saturation2_UpperSat) {
     tmp = sersin_P.Saturation2_UpperSat;
-  } else if (sersin_P.Constant2_Value < sersin_P.Saturation2_LowerSat) {
+  } else if (rtb_Bias2 < sersin_P.Saturation2_LowerSat) {
     tmp = sersin_P.Saturation2_LowerSat;
   } else {
-    tmp = sersin_P.Constant2_Value;
+    tmp = rtb_Bias2;
   }
 
-  /* DataTypeConversion: '<S5>/Data Type Conversion' incorporates:
-   *  Bias: '<Root>/Bias2'
+  /* Bias: '<Root>/Bias2' incorporates:
    *  Gain: '<Root>/Gain2'
    *  Gain: '<Root>/Gain4'
    *  Saturate: '<Root>/Saturation2'
    */
-  tmp = sersin_P.Gain4_Gain * tmp * sersin_P.Gain2_Gain + sersin_P.Bias2_Bias;
-  if (tmp < 256.0) {
-    if (tmp >= 0.0) {
-      tmp_0 = (uint8_T)tmp;
+  rtb_Bias2 = sersin_P.Gain4_Gain * tmp * sersin_P.Gain2_Gain +
+    sersin_P.Bias2_Bias;
+
+  /* DataTypeConversion: '<S6>/Data Type Conversion' */
+  if (rtb_Bias2 < 256.0) {
+    if (rtb_Bias2 >= 0.0) {
+      sersin_B.DataTypeConversion_c = (uint8_T)rtb_Bias2;
     } else {
-      tmp_0 = 0U;
+      sersin_B.DataTypeConversion_c = 0U;
     }
   } else {
-    tmp_0 = MAX_uint8_T;
+    sersin_B.DataTypeConversion_c = MAX_uint8_T;
   }
 
-  /* End of DataTypeConversion: '<S5>/Data Type Conversion' */
+  /* End of DataTypeConversion: '<S6>/Data Type Conversion' */
 
-  /* S-Function (arduinoservowrite_sfcn): '<S5>/Servo Write' */
-  MW_servoWrite(sersin_P.ServoWrite_p1_d, tmp_0);
+  /* S-Function (arduinoservowrite_sfcn): '<S6>/Servo Write' */
+  MW_servoWrite(sersin_P.ServoWrite_p1_d, sersin_B.DataTypeConversion_c);
 }
 
 /* Model update function */
@@ -323,13 +340,13 @@ void sersin_initialize(void)
   (void) memset(((void *) &sersin_B), 0,
                 sizeof(B_sersin_T));
 
-  /* Start for S-Function (arduinoservowrite_sfcn): '<S3>/Servo Write' */
+  /* Start for S-Function (arduinoservowrite_sfcn): '<S4>/Servo Write' */
   MW_servoAttach(sersin_P.ServoWrite_p1, sersin_P.ServoWrite_pinNumber);
 
-  /* Start for S-Function (arduinoservowrite_sfcn): '<S4>/Servo Write' */
+  /* Start for S-Function (arduinoservowrite_sfcn): '<S5>/Servo Write' */
   MW_servoAttach(sersin_P.ServoWrite_p1_e, sersin_P.ServoWrite_pinNumber_f);
 
-  /* Start for S-Function (arduinoservowrite_sfcn): '<S5>/Servo Write' */
+  /* Start for S-Function (arduinoservowrite_sfcn): '<S6>/Servo Write' */
   MW_servoAttach(sersin_P.ServoWrite_p1_d, sersin_P.ServoWrite_pinNumber_n);
 }
 
