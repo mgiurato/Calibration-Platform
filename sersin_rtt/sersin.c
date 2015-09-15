@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'sersin'.
  *
- * Model version                  : 1.63
+ * Model version                  : 1.64
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Sun Sep 13 19:18:28 2015
+ * C/C++ source code generated on : Tue Sep 15 11:48:06 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -250,7 +250,7 @@ void sersin_output(void)
 
   /* Lookup_n-D: '<S3>/Look-Up Table1' */
   rtb_Bias2 = look1_binlxpw(rtb_Bias2, sersin_P.LookUpTable1_bp01Data_g,
-    sersin_P.RepeatingSequence4_rep_seq_y, 9UL);
+    sersin_P.RepeatingSequence4_rep_seq_y, 16UL);
 
   /* Saturate: '<Root>/Saturation2' */
   if (rtb_Bias2 > sersin_P.Saturation2_UpperSat) {

@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'sersin'.
  *
- * Model version                  : 1.63
+ * Model version                  : 1.64
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Sun Sep 13 19:18:28 2015
+ * C/C++ source code generated on : Tue Sep 15 11:48:06 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR

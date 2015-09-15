@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'sersin'.
  *
- * Model version                  : 1.63
+ * Model version                  : 1.64
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Sun Sep 13 19:18:28 2015
+ * C/C++ source code generated on : Tue Sep 15 11:48:06 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -64,7 +64,7 @@ struct P_sersin_T_ {
   real_T RepeatingSequence2_rep_seq_y[33];/* Mask Parameter: RepeatingSequence2_rep_seq_y
                                            * Referenced by: '<S2>/Look-Up Table1'
                                            */
-  real_T RepeatingSequence4_rep_seq_y[10];/* Mask Parameter: RepeatingSequence4_rep_seq_y
+  real_T RepeatingSequence4_rep_seq_y[17];/* Mask Parameter: RepeatingSequence4_rep_seq_y
                                            * Referenced by: '<S3>/Look-Up Table1'
                                            */
   uint32_T ServoWrite_pinNumber;       /* Mask Parameter: ServoWrite_pinNumber
@@ -118,7 +118,7 @@ struct P_sersin_T_ {
   real_T Constant_Value_d;             /* Expression: period
                                         * Referenced by: '<S3>/Constant'
                                         */
-  real_T LookUpTable1_bp01Data_g[10];  /* Expression: rep_seq_t - min(rep_seq_t)
+  real_T LookUpTable1_bp01Data_g[17];  /* Expression: rep_seq_t - min(rep_seq_t)
                                         * Referenced by: '<S3>/Look-Up Table1'
                                         */
   real_T Saturation2_UpperSat;         /* Expression: 180

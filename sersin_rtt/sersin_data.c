@@ -7,10 +7,10 @@
  *
  * Code generated for Simulink model 'sersin'.
  *
- * Model version                  : 1.63
+ * Model version                  : 1.64
  * Simulink Coder version         : 8.8 (R2015a) 09-Feb-2015
  * TLC version                    : 8.8 (Jan 19 2015)
- * C/C++ source code generated on : Sun Sep 13 19:18:28 2015
+ * C/C++ source code generated on : Tue Sep 15 11:48:06 2015
  *
  * Target selection: realtime.tlc
  * Embedded hardware selection: Atmel->AVR
@@ -39,7 +39,8 @@ P_sersin_T sersin_P = {
   /*  Mask Parameter: RepeatingSequence4_rep_seq_y
    * Referenced by: '<S3>/Look-Up Table1'
    */
-  { 180.0, 180.0, 90.0, 90.0, 0.0, 0.0, -90.0, -90.0, -180.0, -180.0 },
+  { 180.0, 180.0, 90.0, 90.0, 0.0, 0.0, -90.0, -90.0, -180.0, -180.0, -90.0,
+    -90.0, 0.0, 0.0, 90.0, 90.0, 180.0 },
   9U,                                  /* Mask Parameter: ServoWrite_pinNumber
                                         * Referenced by: '<S4>/Servo Write'
                                         */
@@ -95,14 +96,15 @@ P_sersin_T sersin_P = {
   89.0,                                /* Expression: 89
                                         * Referenced by: '<Root>/Bias1'
                                         */
-  639.0,                               /* Expression: period
+  1025.0,                              /* Expression: period
                                         * Referenced by: '<S3>/Constant'
                                         */
 
   /*  Expression: rep_seq_t - min(rep_seq_t)
    * Referenced by: '<S3>/Look-Up Table1'
    */
-  { 0.0, 127.0, 128.0, 255.0, 257.0, 383.0, 385.0, 511.0, 513.0, 639.0 },
+  { 0.0, 127.0, 128.0, 255.0, 257.0, 383.0, 385.0, 511.0, 513.0, 639.0, 641.0,
+    767.0, 769.0, 895.0, 897.0, 1023.0, 1025.0 },
   180.0,                               /* Expression: 180
                                         * Referenced by: '<Root>/Saturation2'
                                         */
