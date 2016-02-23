@@ -1,0 +1,10 @@
+
+avrdude: AVR device initialized and ready to accept instructions
+avrdude: Device signature = 0x1e9801
+avrdude: reading input file "untitled.hex"
+avrdude: input file untitled.hex auto detected as Intel Hex
+avrdude: writing flash (8734 bytes):
+avrdude: 8734 bytes of flash written
+
+avrdude done.  Thank you.
+
